@@ -21,6 +21,7 @@ public:
 
 	UFUNCTION()
 	void MoveForward(float AxisValue);
+	void MoveRight(float AxisValue);
 
 protected:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category = "Components")
@@ -47,4 +48,5 @@ public:
 
 private:
 	float TargetForwardAxisValue;
+	float TargetRightAxisValue;
 };

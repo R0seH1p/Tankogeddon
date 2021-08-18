@@ -34,6 +34,11 @@ void ATankPawn::MoveForward(float AxisValue)
 	TargetForwardAxisValue = AxisValue;
 }
 
+void ATankPawn::MoveRight(float AxisValue)
+{
+	TargetRightAxisValue = AxisValue;
+}
+
 // Called when the game starts or when spawned
 void ATankPawn::BeginPlay()
 {
@@ -48,6 +53,25 @@ void ATankPawn::Tick(float DeltaTime)
 
 	FVector CurrentLocation = GetActorLocation();
 	FVector ForwardVector = GetActorForwardVector();
-	FVector MovePosition = CurrentLocation + ForwardVector * MoveSpeed * TargetForwardAxisValue * DeltaTime;
-	SetActorLocation(MovePosition, true);
+	FVector RightVector = GetActorRightVector();
+	
+	// + Diagonal movements
+	//CurrentLocation += ForwardVector * MoveSpeed * TargetForwardAxisValue * DeltaTime;
+	//CurrentLocation += RightVector * MoveSpeed * TargetRightAxisValue * DeltaTime;
+
+	// But if this game be like "Tank 1990" on dandy.
+	// It is better to limit the diagonal movements
+	if (TargetForwardAxisValue != 0)
+	{
+		FVector MovePosition = CurrentLocation + ForwardVector * MoveSpeed * TargetForwardAxisValue * DeltaTime;
+		SetActorLocation(MovePosition, true);
+	}
+	else
+	{
+		FVector MovePosition = CurrentLocation + RightVector * MoveSpeed * TargetRightAxisValue * DeltaTime;
+		SetActorLocation(MovePosition, true);
+	}
+
 }
+
+
